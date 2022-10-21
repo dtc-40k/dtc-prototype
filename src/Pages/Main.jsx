@@ -105,7 +105,7 @@ function Main() {
           <Col span={18} push={3}>
             <Row>
               <Col span={16}>
-                <Input name={'ids'} placeholder={"Enter event ID"} onChange={(e) => setEventId(e.target.value)}></Input>
+                <Input name={'ids'} placeholder={'Enter event ID'} onChange={(e) => setEventId(e.target.value)}></Input>
               </Col>
               <Col span={4}>
                 <Button name={'go'} disabled={!eventId} onClick={() => getData()}>
@@ -117,7 +117,21 @@ function Main() {
         </Row>
         <Row style={{ paddingTop: '16px' }}>
           <Col span={18} push={3}>
-            <Table columns={columns} dataSource={data} title={() => title}></Table>
+            <Table
+              columns={columns}
+              dataSource={data}
+              title={() => (
+                <>
+                  <Typography.Title level={4}>
+                    {title}
+                  </Typography.Title>
+                  <Typography.Title level={5}>
+                    {`${data.length} players`}
+                  </Typography.Title>
+                </>
+              )}
+              pagination={{ pageSize: 15 }}
+            ></Table>
           </Col>
         </Row>
       </Content>
