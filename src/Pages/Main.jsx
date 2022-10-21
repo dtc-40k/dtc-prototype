@@ -38,6 +38,7 @@ const columns = [
     dataIndex: 'score',
     key: 'score',
     render: (score) => Math.round(score * 100) / 100,
+    sorter: (a, b) => a.score - b.score,
   },
 ];
 
