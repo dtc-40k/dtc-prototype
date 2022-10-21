@@ -54,7 +54,12 @@ function Main() {
         const eventData = JSON.parse(text);
 
         eventData.sort((a, b) => {
-          return b.battlePoints + b.numWins - (a.battlePoints + a.numWins);
+          const winsDifference = b.numWins - a.numWins;
+
+          if (winsDifference === 0) {
+            return b.battlePoints - a.battlePoints;
+          }
+          return winsDifference;
         });
 
         eventData.forEach((player, index) => {
@@ -71,8 +76,6 @@ function Main() {
                 battlerounds: player.event.numberOfRounds,
                 army: player.army.name,
                 noPlayers: eventData.length,
-                //((Total players +1-Rank)*((50+(15*Aantal rondes)-((Aantal rondes-3)*5)+(if(Total players>130,100,Total players-30)*0.1))/Total players
-                //(1 per plaats vanaf onderaf gezien) * ((50+15 per ronde na de 3e)+(0,1 * aantal spelers gemaximeerd op 130 minus 30)) / aantal spelers
                 score:
                   ((eventData.length + 1 - (index + 1)) *
                     (50 +
