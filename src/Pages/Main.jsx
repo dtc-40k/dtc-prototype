@@ -14,6 +14,7 @@ const columns = [
     title: 'Rank',
     dataIndex: 'rank',
     key: 'rank',
+    sorter: (a, b) => a.rank - b.rank,
   },
   {
     title: 'Name',
@@ -30,6 +31,7 @@ const columns = [
     title: 'Wins',
     dataIndex: 'wins',
     key: 'wins',
+    sorter: (a, b) => a.wins - b.wins,
   },
   {
     title: 'DTC Score',
@@ -42,10 +44,11 @@ const columns = [
 function Main() {
   const [data, setData] = useState([]);
   const [title, setTitle] = useState();
+  const [eventId, setEventId] = useState();
 
   const getData = () => {
     fetch(
-      'https://lrs9glzzsf.execute-api.us-east-1.amazonaws.com/prod/players?eventId=4OukZIMLkY&inclEvent=true&inclMetrics=true&inclArmies=true&inclTeams=true&limit=500&metrics=[%22numWins%22,%22battlePoints%22,%22numWinsSoS%22,%22FFGBattlePointsSoS%22,%22WHArmyPoints%22,%22mfSwissPoints%22,%22pathToVictory%22,%22mfStrengthOfSchedule%22,%22marginOfVictory%22,%22extendedNumWinsSoS%22,%22extendedFFGBattlePointsSoS%22,%22_id%22]'
+      `https://lrs9glzzsf.execute-api.us-east-1.amazonaws.com/prod/players?eventId=${eventId}&inclEvent=true&inclMetrics=true&inclArmies=true&inclTeams=true&limit=500&metrics=[%22numWins%22,%22battlePoints%22,%22numWinsSoS%22,%22FFGBattlePointsSoS%22,%22WHArmyPoints%22,%22mfSwissPoints%22,%22pathToVictory%22,%22mfStrengthOfSchedule%22,%22marginOfVictory%22,%22extendedNumWinsSoS%22,%22extendedFFGBattlePointsSoS%22,%22_id%22]`
     )
       .then((response) => {
         return response.text();
@@ -102,10 +105,10 @@ function Main() {
           <Col span={18} push={3}>
             <Row>
               <Col span={16}>
-                <Input name={'ids'} placeholder={"List of event ID's comma seperated"}></Input>
+                <Input name={'ids'} placeholder={"Enter event ID"} onChange={(e) => setEventId(e.target.value)}></Input>
               </Col>
               <Col span={4}>
-                <Button name={'go'} onClick={() => getData()}>
+                <Button name={'go'} disabled={!eventId} onClick={() => getData()}>
                   Go
                 </Button>
               </Col>
